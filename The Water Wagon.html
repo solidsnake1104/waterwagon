@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Water Wagon — Wabash Valley Water Hauling</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0D2340;
+      --water:  #1A6FA8;
+      --sky:    #5BB8F5;
+      --white:  #FFFFFF;
+      --off:    #F0F6FC;
+      --text:   #1C2B3A;
+      --muted:  #5A7089;
+      --cta:    #F5A623;
+      --cta-dk: #D4891A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1.25rem;
+      height: 60px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 38px;
+      width: auto;
+    }
+
+    .nav-logo span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1.1;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--sky); }
+
+    .nav-call {
+      background: var(--cta);
+      color: var(--navy) !important;
+      font-weight: 700 !important;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s !important;
+    }
+
+    .nav-call:hover { background: var(--cta-dk) !important; color: var(--white) !important; }
+
+    /* hamburger */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 60px; left: 0; right: 0;
+      background: var(--navy);
+      z-index: 99;
+      padding: 1rem 0 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .mobile-menu.open { display: block; }
+
+    .mobile-menu a {
+      display: block;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      padding: 0.85rem 1.5rem;
+      font-size: 1.05rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .mobile-menu a.cta-mobile {
+      margin: 1rem 1.5rem 0;
+      background: var(--cta);
+      color: var(--navy);
+      font-weight: 700;
+      text-align: center;
+      border-radius: 6px;
+      border: none;
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--navy);
+      padding-top: 60px;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.35;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(13,35,64,0.5) 0%, rgba(13,35,64,0.85) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem 1.25rem;
+      max-width: 700px;
+    }
+
+    .hero-logo {
+      width: min(180px, 45vw);
+      margin-bottom: 1.5rem;
+      filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 8vw, 4.5rem);
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 3vw, 1.2rem);
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 2rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--cta);
+      color: var(--navy);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-primary:hover { background: var(--cta-dk); transform: translateY(-1px); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.4);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.2); }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--water);
+      padding: 1.5rem 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+      color: var(--white);
+    }
+
+    .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--white);
+    }
+
+    .stat-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: 2px;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 4rem 1.25rem; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--water);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      line-height: 1.1;
+      color: var(--navy);
+      margin-bottom: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    .about { background: var(--off); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 8px 32px rgba(13,35,64,0.15);
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    /* ── GALLERY ── */
+    .gallery { background: var(--white); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .gallery-item {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      border-radius: 6px;
+      background: var(--off);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--navy);
+      text-align: center;
+      padding: 3.5rem 1.25rem;
+    }
+
+    .cta-band h2 { color: var(--white); margin-bottom: 0.5rem; }
+
+    .cta-band p {
+      color: rgba(255,255,255,0.7);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .phone-link {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      font-weight: 900;
+      color: var(--sky);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+
+    .phone-link:hover { color: var(--cta); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #060F1A;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--sky);
+      text-decoration: none;
+    }
+
+    footer a:hover { text-decoration: underline; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0.25rem 0.5rem;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="https://www.aaathewaterwagon.com/resources/WW-Truck-Logo%20copy.png" alt="Water Wagon logo">
+    <span>The Water<br>Wagon</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="https://aaathewaterwagon.com/page-3/">Rates & Service Area</a></li>
+    <li><a href="https://aaathewaterwagon.com/page-4/">Pool Calculator</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="tel:8126067171" class="nav-call">📞 Call Now</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Open menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="https://aaathewaterwagon.com/page-3/" onclick="closeMenu()">Rates &amp; Service Area</a>
+  <a href="https://aaathewaterwagon.com/page-4/" onclick="closeMenu()">Pool Calculator</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="tel:8126067171" class="cta-mobile">📞 (812) 606-7171 — Call Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <video class="hero-video" autoplay muted loop playsinline poster="https://www.aaathewaterwagon.com/resources/WW-Truck-Logo%20copy.png">
+    <source src="http://aaathewaterwagon.com/SlowMoWaterVideo.mp4" type="video/mp4">
+    <source src="http://aaathewaterwagon.com/SlowMoWaterVideo.webmhd.webm" type="video/webm">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <img class="hero-logo" src="https://www.aaathewaterwagon.com/resources/WW-Truck-Logo.png" alt="The Water Wagon">
+    <h1>Wabash Valley's<br><em>Water Hauler</em></h1>
+    <p class="hero-sub">Fast, reliable potable water delivery for pools, construction, and more — 4,000 gallons at 400 GPM.</p>
+    <div class="hero-actions">
+      <a href="tel:8126067171" class="btn-primary">📞 (812) 606-7171</a>
+      <a href="https://aaathewaterwagon.com/page-3/" class="btn-secondary">Rates &amp; Service Area</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">4,000</div>
+    <div class="stat-label">Gallon Capacity</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">400</div>
+    <div class="stat-label">Gallons Per Minute</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">Years in the Industry</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">#1</div>
+    <div class="stat-label">Recommended Hauler</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <img class="about-img" src="https://www.aaathewaterwagon.com/resources/IMG_0274.jpeg" alt="Water Wagon truck on the job">
+      <div class="about-text">
+        <div class="section-label">Who We Are</div>
+        <h2>The Valley's Most Trusted Water Hauler</h2>
+        <p>Highly recommended by the Wabash Valley's top pool builders, The Water Wagon has more than ten years of ties to the swimming pool industry — so we know water.</p>
+        <p>We've become the region's best known, most affordable, and most dependable water hauler. With a truck capacity of 4,000 gallons and a pump rate of 400 gallons per minute, we can have your project filled in no time.</p>
+        <p>We haul potable water to suit any need — pool fills, construction, and more.</p>
+        <a href="tel:8126067171" class="btn-primary" style="margin-top:1.25rem; display:inline-flex;">Call Today</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="section-label">Our Work</div>
+    <h2>See Us in Action</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-293.jpg" alt="Water Wagon in action" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-275.jpg" alt="Pool filling" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-297.jpg" alt="Water delivery" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-273.jpg" alt="Truck on site" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-298.jpg" alt="Water wagon truck" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-296.jpg" alt="Pool fill" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-305.jpg" alt="Delivery" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-303.jpg" alt="Water hauling" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-313.jpg" alt="Water wagon" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-315.jpg" alt="Pool water delivery" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-316.jpg" alt="On the job" loading="lazy" onclick="openLightbox(this.src)"></div>
+      <div class="gallery-item"><img src="https://www.aaathewaterwagon.com/files/slide_image-318.jpg" alt="Water wagon truck" loading="lazy" onclick="openLightbox(this.src)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="container">
+    <div class="section-label" style="color:var(--sky)">Ready to Fill?</div>
+    <h2>Get Your Pool Filled Fast</h2>
+    <p>Call us today for a quote or to schedule a delivery.</p>
+    <a href="tel:8126067171" class="phone-link">(812) 606-7171</a>
+    <a href="tel:8126067171" class="btn-primary" style="font-size:1.2rem; padding:1rem 2.5rem;">Call Now</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 The Water Wagon, Inc. &nbsp;|&nbsp; <a href="mailto:jd@aaathewaterwagon.com">Contact Us</a></p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightboxImg" src="" alt="Gallery image">
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', e => {
+    const menu = document.getElementById('mobileMenu');
+    const toggle = document.querySelector('.nav-toggle');
+    if (menu.classList.contains('open') && !menu.contains(e.target) && !toggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
+</script>
+</body>
+</html>
